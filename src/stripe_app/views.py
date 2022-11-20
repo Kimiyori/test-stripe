@@ -14,11 +14,11 @@ from stripe_app.models import Item
 
 
 class SuccesView(TemplateView):
-    template_name: str = "stripe_app/success.html"
+    template_name: str = "success.html"
 
 
 class FailView(TemplateView):
-    template_name: str = "stripe_app/fail.html"
+    template_name: str = "fail.html"
 
 
 class ItemView(TemplateView):
@@ -53,7 +53,7 @@ class StripeSessionItemView(APIView):
 class StripeIntentItemView(APIView):
     def post(self, request, **kwargs):
         item = get_object_or_404(Item, pk=kwargs.get("pk"))
-        intent = create_payment_for_item(request, item)
+        intent = create_payment_for_item(item)
         return JsonResponse({"client_secret": intent["client_secret"]})
 
 
@@ -75,5 +75,5 @@ class StripeIntentOrderView(APIView):
         **kwargs,
     ):
         order = get_order(kwargs.get("order_pk"))
-        intent = create_payment_for_order(request, order[0])
+        intent = create_payment_for_order(order[0])
         return JsonResponse({"client_secret": intent["client_secret"]})

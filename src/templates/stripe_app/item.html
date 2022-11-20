@@ -5,6 +5,7 @@
 <section>
   <div class="product">
     <div class="description">
+      <h1>Items</h1>
       {% include "components/item_body.html" %}
     </div>
   </div>
@@ -20,8 +21,8 @@
   // Create an instance of the Stripe object with your publishable API key
   const stripe = Stripe("{{ stripe_api_key }}");
 
-  const session_url = "{% url 'create_session' pk=item.id %}"
-  const intent_url = "{% url 'create_payment_intent' item.id %}"
+  const session_url = "{% url 'create_session_item' pk=item.id %}"
+  const intent_url = "{% url 'create_payment_intent_item' item.id %}"
   const item_data = {
     'name': '{{ item.name }}',
     'description': '{{ item.description }}',

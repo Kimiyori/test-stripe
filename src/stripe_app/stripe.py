@@ -7,7 +7,7 @@ from stripe_app.utils.app_utils import convert_to_stripe_currency, create_urls
 class StripeAPI:
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
-    def create_session(self, request, items, discounts, tax):
+    def create_session(self, request, items, discounts=None, tax=None):
         success_url, cancel_url = create_urls(request)
         items_list = [items] if not isinstance(items, list) else items
         line_items = [

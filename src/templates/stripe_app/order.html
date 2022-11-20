@@ -6,10 +6,21 @@
 <section>
     <div class="product">
         <div class="description">
+            <h1>Items</h1>
             {% for item in order.items %}
             {% include "components/item_body.html" %}
             <p>Quantity: {{ item.quantity }}</p>
             {% endfor %}
+            <h3>Overall: {{order.unit_amount}}</h3>
+            {% if order.tax.tax_type %}
+            <h3 class="tax"></h3>
+            {% endif %}
+            {% if order.discount.name %}
+            <h3 class="discount"></h3>
+            {% endif %}
+            {% if order.tax.tax_type or order.discount.name %}
+            <h2 class="total"></h2>
+            {% endif %}
         </div>
     </div>
     <button type="button" id="checkout-button">Checkout</button>
@@ -23,12 +34,29 @@
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     // Create an instance of the Stripe object with your publishable API key
     const stripe = Stripe("{{ stripe_api_key }}");
-  
+
     const session_url = "{% url 'create_session_order' order.pk %}"
     const intent_url = "{% url 'create_payment_order' order.pk %}"
     const item_data = {
     }
-  </script>
-  <script src='/static/js/intent_item.js' type="text/javascript"></script>
-  <script src='/static/js/session_item.js' type="text/javascript"></script>
+    let total_amount = {{ order.unit_amount }}
+    {% if order.tax.tax_type %}
+    const tax = document.querySelector('.tax')
+    const tax_amount = total_amount * ({{ order.tax.percentage }} / 100)
+    tax.textContent = `Tax: ${tax_amount}`
+    total_amount += tax_amount
+    {% endif %}
+    {% if order.discount.name %}
+    const discount = document.querySelector('.discount')
+    const discount_amount = total_amount * {{ order.discount.discount_value }}/100
+    discount.textContent = `Discount: ${discount_amount}`
+    total_amount -= discount_amount
+    {% endif %}
+    {% if order.tax.tax_type or order.discount.name %}
+    const total = document.querySelector('.total')
+    total.textContent = `Total: ${total_amount}`
+    {% endif %}
+</script>
+<script src='/static/js/intent_item.js' type="text/javascript"></script>
+<script src='/static/js/session_item.js' type="text/javascript"></script>
 {% endblock %}
