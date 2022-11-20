@@ -1,22 +1,24 @@
 from django.http import JsonResponse
 from django.conf import settings
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from rest_framework.views import APIView
 from stripe_app.services.db_services import get_order
 from stripe_app.services.stripe_services import (
+    create_payment_for_item,
+    create_payment_for_order,
     create_session_for_item,
     create_session_for_order,
 )
 from stripe_app.models import Item
 
 
-def success(request):
-    return render(request, "stripe_app/success.html")
+class SuccesView(TemplateView):
+    template_name: str = "stripe_app/success.html"
 
 
-def fail(request):
-    return render(request, "stripe_app/fail.html")
+class FailView(TemplateView):
+    template_name: str = "stripe_app/fail.html"
 
 
 class ItemView(TemplateView):
@@ -28,13 +30,6 @@ class ItemView(TemplateView):
         context = super(ItemView, self).get_context_data(**kwargs)
         context.update(dict(item=get_object_or_404(Item, pk=kwargs.get("pk"))))
         return context
-
-
-class BuyItemAPIView(APIView):
-    def get(self, request, **kwargs):
-        item = get_object_or_404(Item, pk=kwargs.get("pk"))
-        session = create_session_for_item(request, item)
-        return JsonResponse({"session_id": session.id})
 
 
 class OrderView(TemplateView):
@@ -49,12 +44,36 @@ class OrderView(TemplateView):
         return context
 
 
-class BuyOrderAPIView(APIView):
-    def get(
+class StripeSessionItemView(APIView):
+    def post(self, request, **kwargs):
+        session = create_session_for_item(request, request.data)
+        return JsonResponse({"id": session.id})
+
+
+class StripeIntentItemView(APIView):
+    def post(self, request, **kwargs):
+        item = get_object_or_404(Item, pk=kwargs.get("pk"))
+        intent = create_payment_for_item(request, item)
+        return JsonResponse({"client_secret": intent["client_secret"]})
+
+
+class StripeSessionOrderView(APIView):
+    def post(
         self,
         request,
         **kwargs,
     ):
         order = get_order(kwargs.get("order_pk"))
         session = create_session_for_order(request, order[0])
-        return JsonResponse({"session_id": session.id})
+        return JsonResponse({"id": session.id})
+
+
+class StripeIntentOrderView(APIView):
+    def post(
+        self,
+        request,
+        **kwargs,
+    ):
+        order = get_order(kwargs.get("order_pk"))
+        intent = create_payment_for_order(request, order[0])
+        return JsonResponse({"client_secret": intent["client_secret"]})
