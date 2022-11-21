@@ -21,7 +21,7 @@ jobs:
           envkey_SECRET_KEY: secret_key
           envkey_STRIPE_SECRET_KEY : secret_stripe_key
           envkey_STRIPE_PUBLIC_KEY : public_stripe_key
-          directory: ${{GITHUB_WORKSPACE}}
+          directory: ${GITHUB_WORKSPACE}
           file_name: .env
       - uses: actions/checkout@v2
       - name: Run linter
