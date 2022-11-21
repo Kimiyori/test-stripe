@@ -23,11 +23,7 @@
 
   const session_url = "{% url 'create_session_item' pk=item.id %}"
   const intent_url = "{% url 'create_payment_intent_item' item.id %}"
-  const item_data = {
-    'name': '{{ item.name }}',
-    'description': '{{ item.description }}',
-    'price': '{{ item.price }}',
-  }
+
 </script>
 <script src='/static/js/intent_item.js' type="text/javascript"></script>
 <script src='/static/js/session_item.js' type="text/javascript"></script>

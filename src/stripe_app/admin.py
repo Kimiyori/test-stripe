@@ -1,3 +1,4 @@
+# pylint: disable=missing-class-docstring
 from django.contrib import admin
 from stripe_app.models import Discount, Item, Order, OrderItem, Tax
 

@@ -1,3 +1,4 @@
+# pylint: disable=missing-class-docstring
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
@@ -6,6 +7,8 @@ PERCENTAGE_VALIDATOR = [MinValueValidator(0), MaxValueValidator(100)]
 
 
 class Item(models.Model):
+    """Table for items"""
+
     name = models.CharField(max_length=128)
     description = models.TextField(max_length=500)
     price = models.PositiveIntegerField()
@@ -14,10 +17,12 @@ class Item(models.Model):
         ordering = ["-price"]
 
     def __str__(self) -> str:
-        return self.name
+        return str(self.name)
 
 
 class Order(models.Model):
+    """Table for order"""
+
     created_at = models.DateTimeField(auto_now_add=True)
     discount = models.ForeignKey(
         "Discount",
@@ -37,11 +42,13 @@ class Order(models.Model):
     class Meta:
         ordering = ["-created_at"]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Order[{self.created_at}"
 
 
 class OrderItem(models.Model):
+    """Table for items in orders"""
+
     order = models.ForeignKey(
         Order, on_delete=models.PROTECT, related_name="order_items"
     )
@@ -50,6 +57,8 @@ class OrderItem(models.Model):
 
 
 class Tax(models.Model):
+    """Table for tax types"""
+
     class TaxTypes(models.TextChoices):
         GST = "GST", _("Goods and Services Tax")
         VAT = "VAT", _("Value-added tax")
@@ -67,11 +76,13 @@ class Tax(models.Model):
     class Meta:
         ordering = ["-percentage"]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{str(self.tax_type).capitalize()} tax with {self.percentage}%"
 
 
 class Discount(models.Model):
+    """Table for discounts"""
+
     class Duration(models.TextChoices):
         FOREVER = "FRVR", _("Forever")
         ONCE = "ONCE", _("Once")
@@ -88,5 +99,5 @@ class Discount(models.Model):
     class Meta:
         ordering = ["-discount_value"]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name} discount with {self.discount_value}%"

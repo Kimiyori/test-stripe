@@ -37,8 +37,6 @@
 
     const session_url = "{% url 'create_session_order' order.pk %}"
     const intent_url = "{% url 'create_payment_order' order.pk %}"
-    const item_data = {
-    }
     let total_amount = {{ order.unit_amount }}
     {% if order.tax.tax_type %}
     const tax = document.querySelector('.tax')

@@ -8,7 +8,6 @@ checkoutButton.addEventListener('click', function () {
     "Content-Type": "application/json",
       'X-CSRFToken': csrftoken
     },
-    body: JSON.stringify(item_data)
   })
     .then(function (response) {
       return response.json();
