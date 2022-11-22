@@ -19,17 +19,17 @@ urlpatterns = [
         name="create_session_item",
     ),
     path(
-        "buy/intent/<int:pk>/",
+        "buy/intent/<int:pk>",
         StripeIntentItemView.as_view(),
         name="create_payment_intent_item",
     ),
     path(
-        "order/<int:order_pk>/buy/",
+        "order/buy/session/<int:order_pk>",
         StripeSessionOrderView.as_view(),
         name="create_session_order",
     ),
     path(
-        "order/<int:order_pk>/buy/intent",
+        "order/buy/intent/<int:order_pk>",
         StripeIntentOrderView.as_view(),
         name="create_payment_order",
     ),

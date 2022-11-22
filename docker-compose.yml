@@ -27,5 +27,14 @@ services:
     profiles: ["test_profile"]
     volumes:
       - .:/test_stripe
+  test:
+    build: .
+    command: python -m  pytest src
+    working_dir: /test_stripe
+    profiles: ["test_profile"]
+    volumes:
+      - .:/test_stripe src
+    depends_on:
+      - db
 volumes:
   postgres_data:

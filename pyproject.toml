@@ -22,7 +22,10 @@ flake8 = "^5.0.4"
 pylint = "^2.15.6"
 mypy = "0.982"
 django-stubs = {extras = ["compatible-mypy"], version = "^1.13.0"}
-
+[tool.poetry.group.test.dependencies]
+pytest-django = "^4.5.2"
+faker = "^15.3.2"
+responses = "^0.22.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

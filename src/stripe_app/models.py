@@ -52,19 +52,20 @@ class OrderItem(models.Model):
     order = models.ForeignKey(
         Order, on_delete=models.PROTECT, related_name="order_items"
     )
-    item = models.ForeignKey(Item, on_delete=models.PROTECT, null=True, blank=True)
+    item = models.ForeignKey(Item, on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField()
+
+
+class TaxTypes(models.TextChoices):
+    GST = "GST", _("Goods and Services Tax")
+    VAT = "VAT", _("Value-added tax")
+    JCT = "JCT", _("Japanese consumption tax")
+    QST = "QST", _("Québec sales tax")
+    SALES = "Sales", _("Sales tax")
 
 
 class Tax(models.Model):
     """Table for tax types"""
-
-    class TaxTypes(models.TextChoices):
-        GST = "GST", _("Goods and Services Tax")
-        VAT = "VAT", _("Value-added tax")
-        JCT = "JCT", _("Japanese consumption tax")
-        QST = "QST", _("Québec sales tax")
-        SALES = "Sales", _("Sales tax")
 
     tax_type = models.CharField(choices=TaxTypes.choices, max_length=50)
     percentage = models.DecimalField(
@@ -80,13 +81,14 @@ class Tax(models.Model):
         return f"{str(self.tax_type).capitalize()} tax with {self.percentage}%"
 
 
+class Duration(models.TextChoices):
+    FOREVER = "FRVR", _("Forever")
+    ONCE = "ONCE", _("Once")
+    REPEAT = "RPT", _("Repeat")
+
+
 class Discount(models.Model):
     """Table for discounts"""
-
-    class Duration(models.TextChoices):
-        FOREVER = "FRVR", _("Forever")
-        ONCE = "ONCE", _("Once")
-        REPEAT = "RPT", _("Repeat")
 
     name = models.CharField(max_length=128)
     discount_value = models.DecimalField(
