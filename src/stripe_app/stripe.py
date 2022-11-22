@@ -1,7 +1,11 @@
 import stripe
 from django.conf import settings
 from django.http import HttpRequest
-from stripe_app.utils.app_utils import convert_to_stripe_currency, create_urls
+from stripe_app.utils.app_utils import (
+    convert_to_stripe_currency,
+    create_urls,
+    stripe_error_handler,
+)
 
 
 class StripeAPI:
@@ -9,6 +13,7 @@ class StripeAPI:
 
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
+    @stripe_error_handler  # type: ignore
     def create_session(
         self,
         request: HttpRequest,
@@ -34,7 +39,7 @@ class StripeAPI:
         line_items = [
             {
                 "price_data": {
-                    "currency": "usd",
+                    "currency": item["currency"],
                     "product_data": {
                         "name": item["name"],
                         "description": item["description"],
@@ -55,6 +60,7 @@ class StripeAPI:
         )
         return session
 
+    @stripe_error_handler  # type: ignore
     def create_coupon(self, data: dict[str, str | int]) -> stripe.Coupon:
         """Create stripe coupon
 
@@ -67,6 +73,7 @@ class StripeAPI:
         """
         return stripe.Coupon.create(percent_off=data["discount_value"])
 
+    @stripe_error_handler  # type: ignore
     def create_tax(self, data: dict[str, str | int]) -> stripe.TaxRate:
         """create stripe tax
 

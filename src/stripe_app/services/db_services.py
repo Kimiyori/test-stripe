@@ -23,6 +23,7 @@ def get_order(order_pk: int, fields: tuple[str, ...]) -> QuerySet[Model]:
                 name=F("order_items__item__name"),
                 price=F("order_items__item__price"),
                 description=F("order_items__item__description"),
+                currency=F("order_items__item__currency"),
                 quantity=F("order_items__quantity"),
             ),
         ),
@@ -62,6 +63,6 @@ def get_item(item_pk: int) -> QuerySet[Model]:
     item = get_objects(
         Item.objects,  # pylint: disable=no-member
         filter={"pk": item_pk},
-        values=("name", "description", "price"),
+        values=("name", "description", "price", "currency"),
     )
     return item  # type: ignore

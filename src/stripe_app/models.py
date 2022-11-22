@@ -6,12 +6,22 @@ from django.utils.translation import gettext_lazy as _
 PERCENTAGE_VALIDATOR = [MinValueValidator(0), MaxValueValidator(100)]
 
 
+class Currencies(models.TextChoices):
+    USD = "USD", _("USD")
+    EUR = "EUR", _("EUR")
+
+
 class Item(models.Model):
     """Table for items"""
 
     name = models.CharField(max_length=128)
     description = models.TextField(max_length=500)
     price = models.PositiveIntegerField()
+    currency = models.CharField(
+        max_length=3,
+        choices=Currencies.choices,
+        default=Currencies.USD.value,
+    )
 
     class Meta:
         ordering = ["-price"]
