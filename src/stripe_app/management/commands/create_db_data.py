@@ -13,38 +13,46 @@ class Command(BaseCommand):
         items = []
         for _ in range(10):
             items.append(
-                Item.objects.create(
+                Item(
                     name=faker.pystr(),
                     description=faker.text(max_nb_chars=500),
                     price=faker.pyint(),
                 )
             )
+        Item.objects.bulk_create(items)
         discounts = []
         taxs = []
         for _ in range(3):
             discounts.append(
-                Discount.objects.create(
+                Discount(
                     discount_value=faker.pyint(max_value=100), duration=Duration.ONCE
                 )
             )
             taxs.append(
-                Tax.objects.create(
+                Tax(
                     percentage=faker.pyint(max_value=100),
                     tax_type=TaxTypes.GST,
                     description=faker.text(max_nb_chars=128),
                 )
             )
+        Discount.objects.bulk_create(discounts)
+        Tax.objects.bulk_create(taxs)
         orders = []
         for _ in range(2):
             orders.append(
-                Order.objects.create(
+                Order(
                     discount=discounts[random.randint(0, 2)],
                     tax=taxs[random.randint(0, 2)],
                 )
             )
+        Order.objects.bulk_create(orders)
+        order_items = []
         for _ in range(10):
-            OrderItem.objects.create(
-                order=orders[random.randint(0, 1)],
-                item=items[random.randint(0, 9)],
-                quantity=faker.pyint(),
+            order_items.append(
+                OrderItem(
+                    order=orders[random.randint(0, 1)],
+                    item=items[random.randint(0, 9)],
+                    quantity=faker.pyint(),
+                )
             )
+        OrderItem.objects.bulk_create(order_items)
