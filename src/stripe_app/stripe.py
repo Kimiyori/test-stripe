@@ -89,6 +89,7 @@ class StripeAPI:
             percentage=data["percentage"],
         )
 
+    @stripe_error_handler  # type: ignore
     def create_payment_intent(self, price: str | int) -> stripe.PaymentIntent:
         """Create stripe payment
 
