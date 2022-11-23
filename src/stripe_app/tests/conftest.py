@@ -1,6 +1,15 @@
 import pytest
 import responses
-from stripe_app.models import Discount, Duration, Item, Order, OrderItem, Tax, TaxTypes
+from stripe_app.models import (
+    Currencies,
+    Discount,
+    Duration,
+    Item,
+    Order,
+    OrderItem,
+    Tax,
+    TaxTypes,
+)
 
 
 @pytest.fixture
@@ -25,6 +34,7 @@ def create_items(faker):
         name=faker.pystr(),
         description=faker.text(max_nb_chars=500),
         price=faker.pyint(),
+        currency=Currencies.EUR.value,
     )
 
 

@@ -63,6 +63,6 @@ def get_item(item_pk: int) -> QuerySet[Model]:
     item = get_objects(
         Item.objects,  # pylint: disable=no-member
         filter={"pk": item_pk},
-        values=("name", "description", "price", "currency"),
+        values=("id", "name", "description", "price", "currency"),
     )
     return item  # type: ignore
