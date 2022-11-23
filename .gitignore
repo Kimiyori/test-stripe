@@ -22,7 +22,6 @@ lib/
 lib64/
 parts/
 sdist/
-src/db/migrations/versions/
 var/
 wheels/
 share/python-wheels/
@@ -63,7 +62,7 @@ cover/
 
 # Django stuff:
 *.log
-*migrations
+migrations/*
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
