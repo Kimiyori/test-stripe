@@ -24,16 +24,16 @@ Test project with stripe api
 Create an .env file with the following structure in the root folder
 
 ```
-POSTGRES_USER
-POSTGRES_PASSWORD
-POSTGRES_NAME
-POSTGRES_HOST
+POSTGRES_USER=postges
+POSTGRES_PASSWORD=postges
+POSTGRES_NAME=postges
+POSTGRES_HOST=db
 POSTGRES_PORT=5432
-SECRET_KEY
-STRIPE_SECRET_KEY
-STRIPE_PUBLIC_KEY
+SECRET_KEY=secret_key
+STRIPE_SECRET_KEY=your_stripe_test_secret_key
+STRIPE_PUBLIC_KEY=your_stripe_test_public_key
 ```
-Run the following command
+Run the following command:
 
 ```
 docker-compose up --build
@@ -41,11 +41,13 @@ docker-compose up --build
  
 # How use 
 
-1. Navigate to the following urls:
+1. Navigate to the following urls(docker build creates 10 items and 2 order instances for testing):
 
 * /item/id
-* order/id
+* /order/id
 
-2. Choose payment method (Session or PaymentIntent)
+2. Choose payment method on the page(Session or PaymentIntent)
 
 3. Enter credentials (card 4242 4242 4242 4242)
+
+Also, the docker build creates an admin account with username and password 'test_admin' to use the admin panel.
