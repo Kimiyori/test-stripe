@@ -83,6 +83,14 @@ button:disabled {
   opacity: 0.5;
   cursor: default;
 }
+section {
+  max-width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: flex-start;
+}
 /* spinner/processing state, errors */
 .spinner,
 .spinner:before,
@@ -131,6 +139,7 @@ button:disabled {
   -webkit-animation: loading 2s infinite ease;
   animation: loading 2s infinite ease;
 }
+
 @-webkit-keyframes loading {
   0% {
     -webkit-transform: rotate(0deg);

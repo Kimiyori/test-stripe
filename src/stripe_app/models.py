@@ -63,7 +63,7 @@ class OrderItem(models.Model):
         Order, on_delete=models.PROTECT, related_name="order_items"
     )
     item = models.ForeignKey(Item, on_delete=models.PROTECT)
-    quantity = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1)])
 
 
 class TaxTypes(models.TextChoices):

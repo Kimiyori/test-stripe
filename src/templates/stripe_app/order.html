@@ -37,16 +37,17 @@
 
     const session_url = "{% url 'create_session_order' order.pk %}"
     const intent_url = "{% url 'create_payment_order' order.pk %}"
-    let total_amount = {{ order.unit_amount }}
+
+    let total_amount = Math.round({{ order.unit_amount }})
     {% if order.tax.tax_type %}
     const tax = document.querySelector('.tax')
-    const tax_amount = total_amount * ({{ order.tax.percentage }} / 100)
+    const tax_amount = Math.round(total_amount * {{ order.tax.percentage }} / 100)
     tax.textContent = `Tax: ${tax_amount}`
     total_amount += tax_amount
     {% endif %}
     {% if order.discount.name %}
     const discount = document.querySelector('.discount')
-    const discount_amount = total_amount * {{ order.discount.discount_value }}/100
+    const discount_amount = Math.round(total_amount * {{ order.discount.discount_value }}/100)
     discount.textContent = `Discount: ${discount_amount}`
     total_amount -= discount_amount
     {% endif %}
