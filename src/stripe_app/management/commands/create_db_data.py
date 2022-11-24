@@ -24,8 +24,10 @@ class Command(BaseCommand):
         taxs = []
         for _ in range(3):
             discounts.append(
-                Discount(name=faker.pystr(max_chars=50),
-                    discount_value=faker.pyint(max_value=100), duration=Duration.ONCE
+                Discount(
+                    name=faker.pystr(max_chars=50),
+                    discount_value=faker.pyint(max_value=100),
+                    duration=Duration.ONCE,
                 )
             )
             taxs.append(
@@ -52,7 +54,7 @@ class Command(BaseCommand):
                 OrderItem(
                     order=orders[random.randint(0, 1)],
                     item=items[random.randint(0, 9)],
-                    quantity=faker.pyint(min_value=1,max_value=5),
+                    quantity=faker.pyint(min_value=1, max_value=5),
                 )
             )
         OrderItem.objects.bulk_create(order_items)

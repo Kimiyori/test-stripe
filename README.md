@@ -20,7 +20,32 @@ Test project with stripe api
 
 
 # How deploy
+
+Create an .env file with the following structure in the root folder
+
+```
+POSTGRES_USER
+POSTGRES_PASSWORD
+POSTGRES_NAME
+POSTGRES_HOST
+POSTGRES_PORT
+SECRET_KE
+STRIPE_SECRET_KEY
+STRIPE_PUBLIC_KEY
+```
+Run the following command
+
 ```
 docker-compose up --build
 ```
-  
+ 
+# How use 
+
+1. Navigate to the following urls:
+
+* /item/id
+* order/id
+
+2. Choose payment method (Session or PaymentIntent)
+
+3. Enter credentials (card 4242 4242 4242 4242)
